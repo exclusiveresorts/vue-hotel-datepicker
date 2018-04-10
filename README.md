@@ -143,7 +143,7 @@ If provided, it will override the default tooltip "X nights" with the text provi
 - Type `boolean`
 - Default `false`
 
-Shows the year next to month
+Shows the year next to the month
 
 ### i18n
 
