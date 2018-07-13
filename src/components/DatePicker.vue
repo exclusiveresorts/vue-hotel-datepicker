@@ -220,10 +220,6 @@ export default {
       },
       type: Array
     },
-    showMonthesByScroll: {
-      default: true,
-      type: Boolean
-    },
   },
 
   data() {
@@ -364,11 +360,15 @@ export default {
       this.reRender(true);
     },
 
-    hideDatepicker() { this.isOpen = false; },
+    hideDatepicker() { 
+      this.isOpen = false; 
+      this.$emit('toggle', false);
+    },
 
     showDatepicker() {
       if (!this.isOpen) {
         this.isOpen = true;
+        this.$emit('toggle', true);
         this.$nextTick(() => {
           this.getCheckInInput().focus();
           if (this.checkIn) {
@@ -686,9 +686,7 @@ export default {
   beforeMount() {
     this.createMonth(new Date(this.startDate));
     this.createMonth(this.getNextMonth(new Date(this.startDate)));
-    if (this.screenSize !== 'desktop' && !this.showMonthesByScroll && this.endDate) {
-      this.renderAllMonthesForDate(this.endDate);
-    }
+    
     if (this.checkIn) {
       this.checkInStr = this.formatDate(this.checkIn);
     }

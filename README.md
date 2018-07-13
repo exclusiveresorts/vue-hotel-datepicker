@@ -153,13 +153,6 @@ Shows the year next to the month
 Enables direct keyboard input. Parsing will be executed by `fecha.parse()` with provided format or by provided function. The first valid format will be used.
 Consider the fecha issue `https://github.com/taylorhakes/fecha/issues/22` when use it.
 
-## showMonthesByScroll
-
-- Type `boolean`
-- Default `true`
-
-By default next/previous month is rendered by scrolling. If this flag is set to false and endDate is set then it will render all monthes on load.
-
 ### i18n
 
 - Type: `Object`
@@ -198,6 +191,9 @@ Emitted every time a new check in date is selected with the new date as payload
 
 ### checkOutChanged
 Emitted every time a new check out date is selected with the new date as payload
+
+### toggle
+Emitted when datepicker is showed/hided
 
 ## Credits
 This component was originally built as a Vue wrapper component for the [Hotel Datepicker](https://github.com/benitolopez/hotel-datepicker) by @benitolopez. Version 2.0.0 was completely rewritten with Vue, removing the original library, removing some features and introducing others.
