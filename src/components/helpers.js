@@ -90,9 +90,10 @@ export default {
       if (swiperWrapper.scrollHeight > swiperWrapper.clientHeight) {
         
         const offset = 20;
-        const endIsNear = swiperWrapper.scrollTop > swiperWrapper.scrollHeight - swiperWrapper.offsetHeight - offset || 
+        const endIsNear = swiperWrapper.scrollTop > swiperWrapper.scrollHeight - swiperWrapper.offsetHeight - offset && 
           swiperWrapper.scrollTop <= swiperWrapper.scrollHeight - swiperWrapper.offsetHeight;
-        if (endIsNear) {
+        
+        if (endIsNear && direction == 'up') {
           this.renderNextMonth();
         }
         else if ( swiperWrapper.scrollTop === 0){
@@ -116,7 +117,7 @@ export default {
 
   handleTouchMove(evt) {
     if ( !this.xDown || !this.yDown ) { return; }
-
+   
     this.xUp = evt.touches[0].clientX;
     this.yUp = evt.touches[0].clientY;
 
@@ -138,8 +139,7 @@ export default {
         this.swipeAfterScroll('down');
       }
     }
-    this.xDown = null;
-    this.yDown = null;
+    this.handleTouchStart(evt);
   },
 
   compareDay(day1, day2) {
