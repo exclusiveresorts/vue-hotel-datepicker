@@ -97,6 +97,7 @@
               .datepicker__week-row.-hide-up-to-tablet
                 .datepicker__week-name(v-for='dayName in i18n["day-names"]' v-text='dayName')
               .square(v-for='(day, index) in months[n].days'
+                :class="{hidden: !day.belongsToThisMonth}"
                 @mouseover='hoveringDate = day.date'
                 v-bind:key='index'
                 )
@@ -396,7 +397,7 @@ export default {
         for (let i = 0; i < formats.length; i++) {
           const format = formats[i];
           const date = typeof format === 'function' ?
-            format(date, isCheckin) :
+            format(str, isCheckin) :
             fecha.parse(str, formats[i]);
        
           if (date) {
