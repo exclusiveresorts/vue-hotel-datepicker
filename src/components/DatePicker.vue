@@ -219,7 +219,11 @@ export default {
         return [];
       },
       type: Array
-    }
+    },
+    showMonthesByScroll: {
+      default: true,
+      type: Boolean
+    },
   },
 
   data() {
@@ -441,7 +445,7 @@ export default {
       }
     },
 
-    moveCalendarToTheDate(date) {
+    renderAllMonthesForDate(date) {
       let firstDayOfLastMonth = this.getFirstDayOfLastMonth();
       let firstDayOfLastButOneMonth = this.getFirstDayOfLastButOneMonth();
       const currentMonthYear = fecha.format(date, "YYYYMM");
@@ -466,6 +470,10 @@ export default {
           firstDayOfLastButOneMonth = this.getFirstDayOfLastButOneMonth();
         } 
       } 
+    },
+
+    moveCalendarToTheDate(date) {
+      this.renderAllMonthesForDate(date);
       if (this.screenSize != 'desktop') {
         this.$nextTick(() => {
           this.scrollToDate(date);
@@ -678,6 +686,9 @@ export default {
   beforeMount() {
     this.createMonth(new Date(this.startDate));
     this.createMonth(this.getNextMonth(new Date(this.startDate)));
+    if (this.screenSize !== 'desktop' && !this.showMonthesByScroll && this.endDate) {
+      this.renderAllMonthesForDate(this.endDate);
+    }
     if (this.checkIn) {
       this.checkInStr = this.formatDate(this.checkIn);
     }

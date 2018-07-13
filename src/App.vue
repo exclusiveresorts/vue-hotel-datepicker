@@ -10,6 +10,16 @@
           />
       </div>
       <div class="box">
+        <h3>Render all monthes for phone/tablet</h3>
+        <DatePicker
+          :maxNights="10"
+          :keyboardFormats="['MM/DD/YYYY']"
+          :showYear="true"
+          :showMonthesByScroll="false"
+          :endDate="endDate"
+          />
+      </div>
+      <div class="box">
         <h3>Allow selection of single day</h3>
         <DatePicker
           :singleDaySelection="true"
@@ -121,20 +131,29 @@
 </template>
 
 <script>
-import DatePicker from 'components/DatePicker.vue';
+import DatePicker from "components/DatePicker.vue";
 
 export default {
   components: {
     DatePicker
   },
+  computed: {
+    endDate() {
+      const today = new Date();
+      return new Date(
+        today.getFullYear() + 3,
+        today.getMonth(),
+        today.getDate() - 1
+      );
+    }
+  }
 };
-
 </script>
 
 <style>
 body,
 html {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
 }
 
 .box {

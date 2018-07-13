@@ -153,6 +153,13 @@ Shows the year next to the month
 Enables direct keyboard input. Parsing will be executed by `fecha.parse()` with provided format or by provided function. The first valid format will be used.
 Consider the fecha issue `https://github.com/taylorhakes/fecha/issues/22` when use it.
 
+## showMonthesByScroll
+
+- Type `boolean`
+- Default `true`
+
+By default next/previous month is rendered by scrolling. If this flag is set to false and endDate is set then it will render all monthes on load.
+
 ### i18n
 
 - Type: `Object`
