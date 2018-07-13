@@ -288,7 +288,7 @@ export default {
 
       this.$emit("checkOutChanged", newDate )
     },
-    show(v) {
+    isOpen(v) {
       this.$emit("toggle", v);
     },
 
