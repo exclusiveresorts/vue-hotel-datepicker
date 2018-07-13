@@ -288,6 +288,9 @@ export default {
 
       this.$emit("checkOutChanged", newDate )
     },
+    show(v) {
+      this.$emit("toggle", v);
+    },
 
   },
 
@@ -362,13 +365,11 @@ export default {
 
     hideDatepicker() { 
       this.isOpen = false; 
-      this.$emit('toggle', false);
     },
 
     showDatepicker() {
       if (!this.isOpen) {
         this.isOpen = true;
-        this.$emit('toggle', true);
         this.$nextTick(() => {
           this.getCheckInInput().focus();
           if (this.checkIn) {
