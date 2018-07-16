@@ -500,7 +500,6 @@ export default {
     },
 
     verifyCheckOutDate() {
-      console.log('verifyCheckOutDate', this.checkOut, this.checkOutStr);
       if (this.checkOut) {
         this.checkOutStr = this.formatDate(this.checkOut);
       } else if (this.checkOutStr && this.checkOutStr.length > 0) {
