@@ -283,7 +283,7 @@ export default {
         this.nextDisabledDate = null;
         this.show = true;
         this.parseDisabledDates();
-        this.reRender();
+        //this.reRender();
       }
 
       this.$emit("checkOutChanged", newDate )
