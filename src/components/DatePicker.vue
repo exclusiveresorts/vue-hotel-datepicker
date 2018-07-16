@@ -279,11 +279,10 @@ export default {
     checkOut(newDate) {
 
       if ( this.checkOut !== null && this.checkOut !== null ) {
-        this.hoveringDate = null;
-        this.nextDisabledDate = null;
-        this.show = true;
-        this.parseDisabledDates();
-        //this.reRender();
+        // this.hoveringDate = null;
+        // this.nextDisabledDate = null;
+        // this.show = true;
+        // this.parseDisabledDates();
       }
 
       this.$emit("checkOutChanged", newDate )
@@ -422,7 +421,7 @@ export default {
             }
             if (!isCheckin) {
               if (this.maxNights) {
-                const maxDate = new Date(this.startDate.getTime());
+                const maxDate = new Date(this.checkIn.getTime());
                 maxDate.setDate(maxDate.getDate() + this.maxNights);
                 if (date > maxDate) {
                   return maxDate;
@@ -492,7 +491,10 @@ export default {
       if (this.checkIn) {
         this.checkInStr = this.formatDate(this.checkIn);
         this.$nextTick(() => {
-          this.getCheckOutInput().focus();
+          const checkoutInput = this.getCheckOutInput();
+          if (checkoutInput) {
+            checkoutInput.focus();
+          }
         });
       } else if (this.checkInStr && this.checkInStr.length > 0) {
         this.clearSelection();
@@ -502,6 +504,7 @@ export default {
     verifyCheckOutDate() {
       if (this.checkOut) {
         this.checkOutStr = this.formatDate(this.checkOut);
+        this.hideDatepicker();
       } else if (this.checkOutStr && this.checkOutStr.length > 0) {
         this.checkOutStr = null;
         this.checkOut = null;
