@@ -73,7 +73,8 @@
               .datepicker__week-name(v-for='dayName in i18n["day-names"]' v-text='dayName')
             .square(v-for='day in months[activeMonthIndex+n].days'
               :class="{hidden: !day.belongsToThisMonth}"
-              @mouseover='hoveringDate = day.date')
+              @mouseover='hoveringDate = day.date'
+              @mouseleave='hoveringDate = null')
               Day(
                 :options="$props"
                 @dayClicked='handleDayClick($event)'
@@ -99,6 +100,7 @@
               .square(v-for='(day, index) in months[n].days'
                 :class="{hidden: !day.belongsToThisMonth}"
                 @mouseover='hoveringDate = day.date'
+                @mouseleave='hoveringDate = null'
                 v-bind:key='index'
                 )
                 Day(
