@@ -407,6 +407,14 @@ export default {
             fecha.parse(str, formats[i]);
        
           if (date) {
+            date.setHours(0,0,0,0);
+            if (this.startDate) {
+              this.startDate.setHours(0,0,0,0);
+            }
+            if (this.endDate && this.endDate !== Infinity) {
+              this.endDate.setHours(0,0,0,0);
+            }
+            
             if (date >= this.startDate && date <= this.endDate) {
               if (!isCheckin && this.maxNights) {
                 const timeDiff = Math.abs(date.getTime() - this.checkIn.getTime());
@@ -506,7 +514,6 @@ export default {
     verifyCheckOutDate() {
       if (this.checkOut) {
         this.checkOutStr = this.formatDate(this.checkOut);
-        this.hideDatepicker();
       } else if (this.checkOutStr && this.checkOutStr.length > 0) {
         this.checkOutStr = null;
         this.checkOut = null;
