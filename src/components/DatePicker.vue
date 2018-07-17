@@ -372,7 +372,11 @@ export default {
       if (!this.isOpen) {
         this.isOpen = true;
         this.$nextTick(() => {
-          this.getCheckInInput().focus();
+          if (!this.checkOut && this.checkIn) {
+            this.getCheckOutInput().focus();
+          } else {
+            this.getCheckInInput().focus();
+          }
           if (this.checkIn) {
             if (this.screenSize != 'desktop') {
               this.scrollToDate(this.checkOut ? this.checkOut : this.checkIn);
@@ -567,19 +571,23 @@ export default {
       ) {
         this.checkOut = checkOut;
       
-        const allowedCheckoutDays = this.getAllowedCheckoutDays(
-          this.checkOut,
-          this.$props
-        );
+        // const allowedCheckoutDays = this.getAllowedCheckoutDays(
+        //   this.checkOut,
+        //   this.$props
+        // );
 
-        this.nextDisabledDate = this.getNextDisabledDate(
-          this.checkOut,
-          this.$props,
-          allowedCheckoutDays,
-          this.sortedDisabledDates
-        );
+        // this.nextDisabledDate = this.getNextDisabledDate(
+        //   this.checkOut,
+        //   this.$props,
+        //   allowedCheckoutDays,
+        //   this.sortedDisabledDates
+        // );
+
+        console.log('this.nextDisabledDate', this.nextDisabledDate);
 
         this.moveCalendarToTheDate(this.checkOut);
+
+        this.reRender();
       } 
     },
 

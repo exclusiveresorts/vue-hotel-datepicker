@@ -4,7 +4,7 @@
       <div class="box">
         <h3>Allow direct input</h3>
         <DatePicker
-          :maxNights="10"
+          :maxNights="60"
           :keyboardFormats="['MM/DD/YYYY']"
           :showYear="true"
           />
