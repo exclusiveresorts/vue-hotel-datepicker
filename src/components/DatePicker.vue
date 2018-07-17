@@ -50,7 +50,7 @@
             v-model="checkOutStr"
             :placeholder="i18n['check-out']"
             type="text"
-            :disabled="keyboardFormats.length === 0 || !checkIn"
+            :disabled="keyboardFormats.length === 0"
             @keyup.self="setCheckOutDateByInput"
             @keyup.enter="verifyCheckOutDate"
             @blur="verifyCheckOutDate"
