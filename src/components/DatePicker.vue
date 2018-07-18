@@ -403,13 +403,12 @@ export default {
 
     parseInputDate(str, isCheckin) {
       if (str && str.length > 0) {
-        const formats = this.keyboardFormats.concat([this.format]);
-        for (let i = 0; i < formats.length; i++) {
-          const format = formats[i];
+        for (let i = 0; i < keyboardFormats.length; i++) {
+          const format = keyboardFormats[i];
           const date = typeof format === 'function' ?
             format(str, isCheckin) :
             fecha.parse(str, formats[i]);
-       
+          console.log('1', date);
           if (date) {
             date.setHours(0,0,0,0);
             if (this.startDate) {
@@ -447,6 +446,7 @@ export default {
           }
         }
         if (isCheckin && this.checkIn) {
+          console.log('3', this.startDate);
           return this.startDate ? this.startDate : null;
         }
         if (!isCheckin && this.checkOut) {
