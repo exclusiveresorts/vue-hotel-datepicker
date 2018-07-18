@@ -445,7 +445,12 @@ export default {
               }
             }
           }
-
+        }
+        if (isCheckin && this.checkIn) {
+          return this.startDate ? this.startDate : null;
+        }
+        if (!isCheckin && this.checkOut) {
+          this.checkOut = null;
         }
       }
       return false;
@@ -460,6 +465,7 @@ export default {
     },
 
     renderAllMonthesForDate(date) {
+      
       let firstDayOfLastMonth = this.getFirstDayOfLastMonth();
       let firstDayOfLastButOneMonth = this.getFirstDayOfLastButOneMonth();
       const currentMonthYear = fecha.format(date, "YYYYMM");
@@ -477,7 +483,8 @@ export default {
         );
       };
 
-      if (isInFuture || this.screenSize == 'desktop') {
+
+      if (this.screenSize == 'desktop') {
         while (!isDayInCurrentView()) {
           changeMonthFn();
           firstDayOfLastMonth = this.getFirstDayOfLastMonth();

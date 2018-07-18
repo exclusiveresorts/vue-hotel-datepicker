@@ -5,7 +5,8 @@
         <h3>Allow direct input</h3>
         <DatePicker
           :maxNights="60"
-          :keyboardFormats="['MM/DD/YYYY']"
+          :keyboardFormats="['MMM DD YYYY']"
+          :endDate="endDate"
           :showYear="true"
           />
       </div>
