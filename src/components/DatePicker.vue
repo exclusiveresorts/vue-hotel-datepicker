@@ -285,7 +285,6 @@ export default {
         this.nextDisabledDate = null;
         this.show = true;
         this.parseDisabledDates();
-        this.reRender();
       }
 
       this.$emit("checkOutChanged", newDate )
@@ -341,9 +340,9 @@ export default {
     },
 
     reRender(open) {
-      this.isOpen = false
+      this.show = false
       this.$nextTick(() => {
-        this.isOpen = true;
+        this.show = true;
         if (open) {
           this.isOpen = true;
           this.$nextTick(() => {
@@ -432,17 +431,17 @@ export default {
             if (isCheckin && date < this.startDate) {
               return this.startDate;
             }
-            if (!isCheckin) {
-              if (this.maxNights) {
-                const maxDate = new Date(this.checkIn.getTime());
-                maxDate.setDate(maxDate.getDate() + this.maxNights);
-                if (date > maxDate) {
-                  return maxDate;
-                }
-              } else if (date > this.endDate) {
-                return this.endDate;
-              }
-            }
+            // if (!isCheckin) {
+            //   if (this.maxNights) {
+            //     const maxDate = new Date(this.checkIn.getTime());
+            //     maxDate.setDate(maxDate.getDate() + this.maxNights);
+            //     if (date > maxDate) {
+            //       return maxDate;
+            //     }
+            //   } else if (date > this.endDate) {
+            //     return this.endDate;
+            //   }
+            // }
           }
         }
         if (isCheckin && this.checkIn) {
