@@ -283,7 +283,6 @@ export default {
       if ( this.checkOut !== null && this.checkOut !== null ) {
         this.hoveringDate = null;
         this.nextDisabledDate = null;
-        this.show = true;
         this.parseDisabledDates();
       }
 
@@ -524,6 +523,9 @@ export default {
     verifyCheckOutDate() {
       if (this.checkOut) {
         this.checkOutStr = this.formatDate(this.checkOut);
+        if (this.isOpen) {
+          this.hideDatepicker();
+        }
       } else if (this.checkOutStr && this.checkOutStr.length > 0) {
         this.checkOutStr = null;
         this.checkOut = null;
