@@ -280,12 +280,13 @@ export default {
     },
     checkOut(newDate) {
 
-      //if ( this.checkOut !== null && this.checkOut !== null ) {
-        // this.hoveringDate = null;
-        // this.nextDisabledDate = null;
-        // this.show = true;
-        // this.parseDisabledDates();
-      //}
+      if ( this.checkOut !== null && this.checkOut !== null ) {
+        this.hoveringDate = null;
+        this.nextDisabledDate = null;
+        this.show = true;
+        this.parseDisabledDates();
+        this.reRender();
+      }
 
       this.$emit("checkOutChanged", newDate )
     },
@@ -340,9 +341,9 @@ export default {
     },
 
     reRender(open) {
-      this.show = false
+      this.isOpen = false
       this.$nextTick(() => {
-        this.show = true;
+        this.isOpen = true;
         if (open) {
           this.isOpen = true;
           this.$nextTick(() => {
