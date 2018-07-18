@@ -23,7 +23,7 @@
         type="text"
         :disabled="keyboardFormats.length === 0"
         @keyup.self="setCheckOutDateByInput"
-        @keyup.enter="verifyCheckOutDate"
+        @keyup.enter="verifyCheckOutDate(true)"
         @blur="executeForDesktop(verifyCheckOutDate)"
       )
     button.datepicker__clear-button(type='button' @click='clearSelection') ＋
@@ -520,10 +520,10 @@ export default {
       }
     },
 
-    verifyCheckOutDate() {
+    verifyCheckOutDate(close) {
       if (this.checkOut) {
         this.checkOutStr = this.formatDate(this.checkOut);
-        if (this.isOpen) {
+        if (this.isOpen && close) {
           this.hideDatepicker();
         }
       } else if (this.checkOutStr && this.checkOutStr.length > 0) {
