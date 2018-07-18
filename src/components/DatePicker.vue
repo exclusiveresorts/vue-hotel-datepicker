@@ -403,12 +403,11 @@ export default {
 
     parseInputDate(str, isCheckin) {
       if (str && str.length > 0) {
-        for (let i = 0; i < keyboardFormats.length; i++) {
-          const format = keyboardFormats[i];
+        for (let i = 0; i < this.keyboardFormats.length; i++) {
+          const format = this.keyboardFormats[i];
           const date = typeof format === 'function' ?
             format(str, isCheckin) :
-            fecha.parse(str, formats[i]);
-          console.log('1', date);
+            fecha.parse(str, format);
           if (date) {
             date.setHours(0,0,0,0);
             if (this.startDate) {
@@ -446,7 +445,6 @@ export default {
           }
         }
         if (isCheckin && this.checkIn) {
-          console.log('3', this.startDate);
           return this.startDate ? this.startDate : null;
         }
         if (!isCheckin && this.checkOut) {
@@ -465,7 +463,6 @@ export default {
     },
 
     renderAllMonthesForDate(date) {
-      
       let firstDayOfLastMonth = this.getFirstDayOfLastMonth();
       let firstDayOfLastButOneMonth = this.getFirstDayOfLastButOneMonth();
       const currentMonthYear = fecha.format(date, "YYYYMM");
@@ -478,15 +475,17 @@ export default {
 
       const isDayInCurrentView = () => {
         return (
-          fecha.format(firstDayOfLastMonth, "YYYYMM") == currentMonthYear ||
+          (this.screenSize == 'desktop' && fecha.format(firstDayOfLastMonth, "YYYYMM") == currentMonthYear) ||
           fecha.format(firstDayOfLastButOneMonth, "YYYYMM") == currentMonthYear
         );
       };
 
 
-      if (this.screenSize == 'desktop') {
+      if (isInFuture || this.screenSize == 'desktop') {
         while (!isDayInCurrentView()) {
-          changeMonthFn();
+          if (!changeMonthFn()) {
+            break;
+          }
           firstDayOfLastMonth = this.getFirstDayOfLastMonth();
           firstDayOfLastButOneMonth = this.getFirstDayOfLastButOneMonth();
         } 
@@ -643,12 +642,14 @@ export default {
     renderPreviousMonth() {
       if (this.activeMonthIndex >= 1) {
         this.activeMonthIndex--;
+        return true;
       }
+      return false;
     },
 
     renderNextMonth() {
       if (!this.isNextMonthAvailable) {
-        return;
+        return false;
       }
 
       if (
@@ -662,6 +663,7 @@ export default {
       }
 
       this.activeMonthIndex++;
+      return true
     },
 
     setCheckIn(date) { this.checkIn = date; },
