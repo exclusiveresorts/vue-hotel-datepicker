@@ -360,7 +360,8 @@ export default {
       this.nextDisabledDate = null;
       this.show = true;
       this.parseDisabledDates();
-      this.reRender(true);
+      this.showDatepicker();
+      //this.reRender(true);
     },
 
     hideDatepicker() { 
