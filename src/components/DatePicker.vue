@@ -59,11 +59,11 @@
         div
         .datepicker__header
           span.datepicker__month-button.datepicker__month-button--prev.-hide-up-to-tablet(
-            @click='renderPreviousMonth'
+            @click='showPreviousMonth'
             :class="{disabled: activeMonthIndex === 0}"
           )
           span.datepicker__month-button.datepicker__month-button--next.-hide-up-to-tablet(
-            @click='renderNextMonth'
+            @click='showNextMonth'
             :class="{disabled: !isNextMonthAvailable}"
           )
         .datepicker__months(v-if='screenSize == "desktop"')
@@ -280,7 +280,7 @@ export default {
     },
     checkOut(newDate) {
 
-      if ( this.checkOut !== null && this.checkOut !== null ) {
+      if ( this.checkOut !== null) {
         this.hoveringDate = null;
         this.nextDisabledDate = null;
         this.parseDisabledDates();
@@ -421,7 +421,7 @@ export default {
             if (date >= this.startDate && date <= this.endDate) {
               if (!isCheckin && this.maxNights) {
                 const timeDiff = Math.abs(date.getTime() - this.checkIn.getTime());
-                const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                const diffDays = Math.floor(timeDiff / (1000 * 3600 * 24));
                 if (diffDays <= this.maxNights) {
                   return date;
                 }
@@ -450,9 +450,28 @@ export default {
         }
         if (!isCheckin && this.checkOut) {
           this.checkOut = null;
+          this.onlyCheckInSetHandler();
         }
       }
       return false;
+    },
+
+    onlyCheckInSetHandler() {
+      if (this.checkIn) {
+        const allowedCheckoutDays = this.getAllowedCheckoutDays(
+            this.checkIn,
+            this.$props
+          );
+
+          this.nextDisabledDate = this.getNextDisabledDate(
+            this.checkIn,
+            this.$props,
+            allowedCheckoutDays,
+            this.sortedDisabledDates
+          );
+
+          this.moveCalendarToTheDate(this.checkIn);
+      }
     },
 
     scrollToDate(date) {
@@ -547,19 +566,8 @@ export default {
         )
       ) {
         this.checkIn = checkIn;
-        const allowedCheckoutDays = this.getAllowedCheckoutDays(
-          this.checkIn,
-          this.$props
-        );
 
-        this.nextDisabledDate = this.getNextDisabledDate(
-          this.checkIn,
-          this.$props,
-          allowedCheckoutDays,
-          this.sortedDisabledDates
-        );
-
-        this.moveCalendarToTheDate(this.checkIn);
+        this.onlyCheckInSetHandler();
 
         this.checkOut = null;
         this.checkOutStr = null;
@@ -641,6 +649,14 @@ export default {
         return this.getFirstDayInMonth(this.months.length - 2);
       }
       return this.getFirstDayInMonth(this.activeMonthIndex);
+    },
+
+    showPreviousMonth() {
+      this.renderPreviousMonth();
+    },
+
+    showNextMonth() {
+      this.renderNextMonth();
     },
 
     renderPreviousMonth() {
