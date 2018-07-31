@@ -291,7 +291,14 @@ export default {
     isOpen(v) {
       this.$emit("toggle", v);
     },
-
+    startingDateValue(v) {
+      this.checkIn = v;
+      this.verifyCheckInDate();
+    },
+    endingDateValue(v) {
+      this.checkOut = v;
+      this.verifyCheckOutDate();
+    },
   },
 
   methods: {
@@ -379,9 +386,8 @@ export default {
             this.getCheckInInput().focus();
           }
           if (this.checkIn) {
-            if (this.screenSize != 'desktop') {
-              this.scrollToDate(this.checkOut ? this.checkOut : this.checkIn);
-            }
+            
+            this.moveCalendarToTheDate(this.checkOut ? this.checkOut : this.checkIn);
           }
         });
       }
