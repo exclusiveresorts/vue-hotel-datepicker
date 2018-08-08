@@ -488,36 +488,6 @@ export default {
       }
     },
 
-    renderAllMonthesForDate(date) {
-      let firstDayOfLastMonth = this.getFirstDayOfLastMonth();
-      let firstDayOfLastButOneMonth = this.getFirstDayOfLastButOneMonth();
-      const currentMonthYear = fecha.format(date, "YYYYMM");
-
-      const isInFuture = firstDayOfLastMonth < date;
-      const changeMonthFn =
-        isInFuture
-          ? this.renderNextMonth
-          : this.renderPreviousMonth;
-
-      const isDayInCurrentView = () => {
-        return (
-          (this.screenSize == 'desktop' && fecha.format(firstDayOfLastMonth, "YYYYMM") == currentMonthYear) ||
-          fecha.format(firstDayOfLastButOneMonth, "YYYYMM") == currentMonthYear
-        );
-      };
-
-
-      if (isInFuture || this.screenSize == 'desktop') {
-        while (!isDayInCurrentView()) {
-          if (!changeMonthFn()) {
-            break;
-          }
-          firstDayOfLastMonth = this.getFirstDayOfLastMonth();
-          firstDayOfLastButOneMonth = this.getFirstDayOfLastButOneMonth();
-        } 
-      } 
-    },
-
     moveCalendarToTheDate(date) {
       this.renderAllMonthesForDate(date);
       if (this.screenSize != 'desktop') {
@@ -637,59 +607,12 @@ export default {
       this.nextDisabledDate = event.nextDisabledDate;
     },
 
-    getFirstDayInMonth(index) {
-      return _.filter(this.months[index].days, {
-        belongsToThisMonth: true
-      })[0].date;
-    },
-
-    getFirstDayOfLastMonth() {
-      if (this.screenSize !== "desktop") {
-        return this.getFirstDayInMonth(this.months.length - 1);
-      }
-      return this.getFirstDayInMonth(this.activeMonthIndex + 1);
-    },
-
-    getFirstDayOfLastButOneMonth() {
-      if (this.screenSize !== "desktop") {
-        return this.getFirstDayInMonth(this.months.length - 2);
-      }
-      return this.getFirstDayInMonth(this.activeMonthIndex);
-    },
-
     showPreviousMonth() {
       this.renderPreviousMonth();
     },
 
     showNextMonth() {
       this.renderNextMonth();
-    },
-
-    renderPreviousMonth() {
-      if (this.activeMonthIndex >= 1) {
-        this.activeMonthIndex--;
-        return true;
-      }
-      return false;
-    },
-
-    renderNextMonth() {
-      if (!this.isNextMonthAvailable) {
-        return false;
-      }
-
-      if (
-        !(
-          this.screenSize === "desktop" &&
-          this.months[this.activeMonthIndex + 2]
-        )
-      ) {
-        const firstDayOfLastMonth = this.getFirstDayOfLastMonth();
-        this.createMonth(this.getNextMonth(firstDayOfLastMonth));
-      }
-
-      this.activeMonthIndex++;
-      return true
     },
 
     setCheckIn(date) { this.checkIn = date; },
