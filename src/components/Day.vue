@@ -248,7 +248,7 @@ export default {
   beforeMount(){
     this.checkIfDisabled();
     this.checkIfHighlighted();
-    if (this.checkIn) {
+    if (this.checkIn && !this.checkOut) {
       this.disableNextDays();
     }
   },

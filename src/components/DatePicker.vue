@@ -402,7 +402,9 @@ export default {
       this.show = true;
       this.parseDisabledDates();
       this.showDatepicker();
-      this.getCheckInInput().focus();
+      if (this.getCheckInInput()) {
+        this.getCheckInInput().focus();
+      }
       //this.reRender(true);
     },
 
