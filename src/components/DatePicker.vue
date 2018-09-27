@@ -226,6 +226,10 @@ export default {
       },
       type: Array
     },
+    open: {
+      default: false,
+      type: Boolean,
+    }
   },
 
   data() {
@@ -272,6 +276,9 @@ export default {
   },
 
   watch: {
+    open(v) {
+      this.isOpen = v;
+    },
     isOpen (value) {
       if (this.screenSize !== 'desktop') {
         const bodyClassList = document.querySelector('body').classList;
@@ -283,6 +290,7 @@ export default {
           bodyClassList.remove('-overflow-hidden');
         }
       }
+      this.$emit("toggle", value);
     },
     checkIn(newDate) {
       this.$emit("checkInChanged", newDate )
@@ -295,9 +303,6 @@ export default {
       }
 
       this.$emit("checkOutChanged", newDate )
-    },
-    isOpen(v) {
-      this.$emit("toggle", v);
     },
     startingDateValue(v) {
       if (!this.checkinFocus) {
