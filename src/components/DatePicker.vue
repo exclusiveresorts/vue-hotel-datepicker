@@ -352,10 +352,10 @@ export default {
       if (screenSizeInEm < 31) {
         this.screenSize = 'smartphone';
       }
-      else if (screenSizeInEm > 30 && screenSizeInEm < 49) {
+      else if (screenSizeInEm > 30 && screenSizeInEm < 55) {
         this.screenSize = 'tablet';
       }
-      else if (screenSizeInEm > 48) {
+      else if (screenSizeInEm > 55) {
         this.screenSize = 'desktop';
       }
 
