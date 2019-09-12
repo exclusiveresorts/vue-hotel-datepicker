@@ -348,8 +348,6 @@ export default {
     },
     handleWindowResize() {
       let screenSizeInEm = window.innerWidth / parseFloat(getComputedStyle(document.querySelector('body'))['font-size']);
-      const l = console.log
-      l(screenSizeInEm);
 
       if (screenSizeInEm < 31) {
         this.screenSize = 'smartphone';
