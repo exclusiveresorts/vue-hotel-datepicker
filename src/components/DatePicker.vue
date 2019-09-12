@@ -357,7 +357,7 @@ export default {
       else if (screenSizeInEm > 30 && screenSizeInEm < 57) {
         this.screenSize = 'tablet';
       }
-      else if (screenSizeInEm > 57) {
+      else if (screenSizeInEm > 56) {
         this.screenSize = 'desktop';
       }
 
