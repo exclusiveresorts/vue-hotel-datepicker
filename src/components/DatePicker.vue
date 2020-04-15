@@ -407,12 +407,12 @@ export default {
       this.checkOut = null;
       this.checkOutStr = null;
       this.nextDisabledDate = null;
-      this.show = true;
+      // this.show = true;
       this.parseDisabledDates();
-      this.showDatepicker();
-      if (this.getCheckInInput()) {
-        this.getCheckInInput().focus();
-      }
+      // this.showDatepicker();
+      // if (this.getCheckInInput()) {
+      //   this.getCheckInInput().focus();
+      // }
       //this.reRender(true);
     },
 
