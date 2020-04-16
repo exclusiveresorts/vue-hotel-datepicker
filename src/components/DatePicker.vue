@@ -28,7 +28,7 @@
         @blur="setCheckoutBlur(isDesktop)"
         @focus="setCheckoutFocus"
       )
-    button.datepicker__clear-button(type='button' @click='clearSelection') ＋
+    button.datepicker__clear-button(type='button' @click='clearSelection()') ＋
     .datepicker( :class='`${ !isOpen ? "datepicker--closed" : "datepicker--open" }`')
       .-hide-on-desktop
         .datepicker__dummy-wrapper.datepicker__dummy-wrapper--no-border(
@@ -400,18 +400,20 @@ export default {
       })
     },
 
-    clearSelection() {
+    clearSelection(open = true) {
       this.hoveringDate = null;
       this.checkIn = null;
       this.checkInStr = null;
       this.checkOut = null;
       this.checkOutStr = null;
       this.nextDisabledDate = null;
-      this.show = true;
       this.parseDisabledDates();
-      this.showDatepicker();
-      if (this.getCheckInInput()) {
-        this.getCheckInInput().focus();
+      if (open === true) {
+        this.show = true;
+        this.showDatepicker();
+        if (this.getCheckInInput()) {
+          this.getCheckInInput().focus();
+        }
       }
       //this.reRender(true);
     },
@@ -557,7 +559,7 @@ export default {
           }
         });
       } else if (this.checkInStr && this.checkInStr.length > 0) {
-        this.clearSelection();
+        this.clearSelection(false);
       }
     },
 
