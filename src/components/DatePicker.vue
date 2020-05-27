@@ -296,6 +296,11 @@ export default {
       this.$emit("toggle", value);
     },
     checkIn(newDate) {
+      if (this.singleDaySelection) {
+        this.hoveringDate = null;
+        this.nextDisabledDate = null;
+        this.parseDisabledDates();
+      }
       this.$emit("checkInChanged", newDate )
     },
     checkOut(newDate) {
@@ -645,8 +650,6 @@ export default {
       } else if (this.singleDaySelection == true) {
         this.checkIn = event.date;
         this.checkInStr = this.formatDate(this.checkIn);
-        this.checkOut = event.date;
-        this.checkOutStr = this.formatDate(this.checkOut);
       } else if (this.checkIn !== null && this.checkOut == null) {
         this.checkOut = event.date;
         this.checkOutStr = this.formatDate(this.checkOut);
