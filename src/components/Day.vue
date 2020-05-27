@@ -253,7 +253,7 @@ export default {
   beforeMount(){
     this.checkIfDisabled();
     this.checkIfHighlighted();
-    if (this.checkIn && !this.checkOut) {
+    if (this.checkIn && !this.checkOut && !this.options.singleDaySelection) {
       this.disableNextDays();
     }
   },
