@@ -651,6 +651,7 @@ export default {
       } else if (this.singleDaySelection == true) {
         this.checkIn = event.date;
         this.checkInStr = this.formatDate(this.checkIn);
+        this.isOpen = false;
       } else if (this.checkIn !== null && this.checkOut == null) {
         this.checkOut = event.date;
         this.checkOutStr = this.formatDate(this.checkOut);
