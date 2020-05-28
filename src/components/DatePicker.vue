@@ -37,7 +37,7 @@
         )
           input.datepicker__dummy-input.datepicker__input(
             ref="checkInInputMobile"
-            :class="`${isOpen && checkIn == null ? 'datepicker__dummy-input--is-active' : ''}`"
+            :class="`${isOpen && checkIn == null ? 'datepicker__dummy-input--is-active' : ''} ${singleDaySelection ? 'datepicker__dummy-input--single-date' : ''}`"
             v-model="checkInStr"
             :placeholder="i18n['check-in']"
             type="text"
@@ -49,6 +49,7 @@
           )
           input.datepicker__dummy-input.datepicker__input(
             ref="checkOutInputMobile"
+            v-if='!singleDaySelection'
             :class="`${isOpen && checkOut == null && checkIn !== null ? 'datepicker__dummy-input--is-active' : ''}`"
             v-model="checkOutStr"
             :placeholder="i18n['check-out']"
