@@ -83,7 +83,8 @@ export default {
       return  !this.isDisabled &&
               this.date == this.hoveringDate &&
               this.checkIn !== null &&
-              this.checkOut == null;
+              this.checkOut == null &&
+              !this.options.singleDaySelection;
     },
 
     dayClass: function(){
@@ -149,9 +150,13 @@ export default {
   watch: {
     hoveringDate: function(date) {
       if ( this.checkIn !== null  && this.checkOut == null && this.isDisabled == false) {
+        if (this.options.singleDaySelection) {
+          this.isHighlighted = false;
+        } else {
         this.isDateLessOrEquals(this.checkIn, this.date) &&
         this.isDateLessOrEquals(this.date, this.hoveringDate) ?
         this.isHighlighted = true : this.isHighlighted = false
+        }
       }
       if( this.checkIn !== null  && this.checkOut == null && this.allowedCheckoutDays.length !== 0){
 
@@ -164,7 +169,7 @@ export default {
           this.isDateLessOrEquals(this.checkIn, this.date) &&
           this.isDateLessOrEquals(this.date, this.checkOut) ?
           this.isHighlighted = true : this.isHighlighted = false
-      } else if ( this.checkIn !== null  && this.checkOut == null ) {
+      } else if ( this.checkIn !== null  && this.checkOut == null && !this.options.singleDaySelection) {
         this.disableNextDays()
       } else {
         return
@@ -248,7 +253,7 @@ export default {
   beforeMount(){
     this.checkIfDisabled();
     this.checkIfHighlighted();
-    if (this.checkIn && !this.checkOut) {
+    if (this.checkIn && !this.checkOut && !this.options.singleDaySelection) {
       this.disableNextDays();
     }
   },

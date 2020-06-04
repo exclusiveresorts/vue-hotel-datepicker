@@ -37,7 +37,7 @@
         )
           input.datepicker__dummy-input.datepicker__input(
             ref="checkInInputMobile"
-            :class="`${isOpen && checkIn == null ? 'datepicker__dummy-input--is-active' : ''}`"
+            :class="`${isOpen && checkIn == null ? 'datepicker__dummy-input--is-active' : ''} ${singleDaySelection ? 'datepicker__dummy-input--single-date' : ''}`"
             v-model="checkInStr"
             :placeholder="i18n['check-in']"
             type="text"
@@ -49,6 +49,7 @@
           )
           input.datepicker__dummy-input.datepicker__input(
             ref="checkOutInputMobile"
+            v-if='!singleDaySelection'
             :class="`${isOpen && checkOut == null && checkIn !== null ? 'datepicker__dummy-input--is-active' : ''}`"
             v-model="checkOutStr"
             :placeholder="i18n['check-out']"
@@ -160,7 +161,7 @@ export default {
     },
     endingDateValue: {
       default: null,
-      type: Date 
+      type: Date
     },
     format: {
       default: 'YYYY-MM-DD',
@@ -296,6 +297,11 @@ export default {
       this.$emit("toggle", value);
     },
     checkIn(newDate) {
+      if (this.singleDaySelection) {
+        this.hoveringDate = null;
+        this.nextDisabledDate = null;
+        this.parseDisabledDates();
+      }
       this.$emit("checkInChanged", newDate )
     },
     checkOut(newDate) {
@@ -394,7 +400,7 @@ export default {
         if (open) {
           this.isOpen = true;
           this.$nextTick(() => {
-            this.getCheckInInput().focus();
+            this.focusCheckIn();
           });
         }
       })
@@ -411,15 +417,13 @@ export default {
       if (open === true) {
         this.show = true;
         this.showDatepicker();
-        if (this.getCheckInInput()) {
-          this.getCheckInInput().focus();
-        }
+        this.focusCheckIn();
       }
       //this.reRender(true);
     },
 
-    hideDatepicker() { 
-      this.isOpen = false; 
+    hideDatepicker() {
+      this.isOpen = false;
     },
 
     showDatepicker() {
@@ -427,12 +431,11 @@ export default {
         this.isOpen = true;
         this.$nextTick(() => {
           if (!this.checkOut && this.checkIn) {
-            this.getCheckOutInput().focus();
+            this.focusCheckOut();
           } else {
-            this.getCheckInInput().focus();
+            this.focusCheckIn();
           }
           if (this.checkIn) {
-            
             this.moveCalendarToTheDate(this.checkOut ? this.checkOut : this.checkIn);
           }
         });
@@ -454,6 +457,20 @@ export default {
         : this.$refs.checkOutInputMobile;
     },
 
+    focusCheckIn() {
+      const checkInInput = this.getCheckInInput();
+      if (checkInInput) {
+        checkInInput.focus();
+      }
+    },
+
+    focusCheckOut() {
+      const checkOutInput = this.getCheckOutInput();
+      if (checkOutInput) {
+        checkOutInput.focus();
+      }
+    },
+
     parseInputDate(str, isCheckin) {
       if (str && str.length > 0) {
         for (let i = 0; i < this.keyboardFormats.length; i++) {
@@ -469,7 +486,7 @@ export default {
             if (this.endDate && this.endDate !== Infinity) {
               this.endDate.setHours(0,0,0,0);
             }
-            
+
             if (date >= this.startDate && date <= this.endDate) {
               if (!isCheckin && this.maxNights) {
                 const timeDiff = Math.abs(date.getTime() - this.checkIn.getTime());
@@ -553,10 +570,7 @@ export default {
       if (this.checkIn) {
         this.checkInStr = this.formatDate(this.checkIn);
         this.$nextTick(() => {
-          const checkoutInput = this.getCheckOutInput();
-          if (checkoutInput) {
-            checkoutInput.focus();
-          }
+          this.focusCheckOut();
         });
       } else if (this.checkInStr && this.checkInStr.length > 0) {
         this.clearSelection(false);
@@ -610,7 +624,7 @@ export default {
         )
       ) {
         this.checkOut = checkOut;
-      
+
         const allowedCheckoutDays = this.getAllowedCheckoutDays(
           this.checkOut,
           this.$props
@@ -624,7 +638,7 @@ export default {
         );
 
         this.moveCalendarToTheDate(this.checkOut);
-      } 
+      }
     },
 
     handleDayClick(event) {
@@ -632,13 +646,12 @@ export default {
         this.checkIn = event.date;
         this.checkInStr = this.formatDate(this.checkIn);
         this.$nextTick(() => {
-          this.getCheckOutInput().focus();
+          this.focusCheckOut();
         });
       } else if (this.singleDaySelection == true) {
         this.checkIn = event.date;
         this.checkInStr = this.formatDate(this.checkIn);
-        this.checkOut = event.date;
-        this.checkOutStr = this.formatDate(this.checkOut);
+        this.isOpen = false;
       } else if (this.checkIn !== null && this.checkOut == null) {
         this.checkOut = event.date;
         this.checkOutStr = this.formatDate(this.checkOut);
@@ -669,7 +682,7 @@ export default {
 
     getMonth(date) { return this.i18n["month-names"][fecha.format(date, 'M') - 1] + (this.showYear ? fecha.format(date, ' YYYY') : ''); },
 
-    formatDate(date, format = false) { 
+    formatDate(date, format = false) {
       return fecha.format(date, format ? format : this.format);
     },
 
@@ -710,7 +723,7 @@ export default {
           this.$refs.swiperWrapper.addEventListener('scroll', this.handleScroll);
         } else {
           document.addEventListener('touchstart', this.handleTouchStart, false);
-          document.addEventListener('touchmove', this.handleTouchMove, false);  
+          document.addEventListener('touchmove', this.handleTouchMove, false);
         }
       }
     },
@@ -725,7 +738,7 @@ export default {
   beforeMount() {
     this.createMonth(new Date(this.startDate));
     this.createMonth(this.getNextMonth(new Date(this.startDate)));
-    
+
     if (this.checkIn) {
       this.checkInStr = this.formatDate(this.checkIn);
     }
