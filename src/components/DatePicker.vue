@@ -1,5 +1,5 @@
 <template lang='pug'>
-  .datepicker__wrapper(v-if='show' v-on-click-outside="hideDatepicker")
+  .datepicker__wrapper(v-if='show')
     .datepicker__close-button.-hide-on-desktop(v-if='isOpen' @click='hideDatepicker') ＋
     .datepicker__dummy-wrapper( @click='showDatepicker' :class="`${isOpen ? 'datepicker__dummy-wrapper--is-active' : ''}` ")
       input.datepicker__dummy-input.datepicker__input(
