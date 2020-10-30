@@ -60,6 +60,7 @@
             @blur="setCheckoutBlur(false)"
             @focus="setCheckoutFocus"
           )
+          slot(name="close")
       .datepicker__inner
         div
         .datepicker__header
